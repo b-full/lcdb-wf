@@ -1,2 +1,3 @@
+image: continuumio/minconda3
 job1:
   script: "echo job1"
