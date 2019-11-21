@@ -627,7 +627,7 @@ for (name in names(ll)){
         genes <- sample(genes, lim)
     }
 
-    if (length(genes) < lower.lim){
+    if (length(genes) <= lower.lim){
         mdcat('**Too few genes (', length(genes), ') to cluster**')
         next
     }
@@ -670,7 +670,11 @@ for (name in names(ll)){
 
     n <- p$normalized
     cls <- unique(n$cluster)
-    names(cls) <- cls
+    if (length(cls) < minc){
+        mdcat('**Too few clusters (', length(cls), ') to cluster**')
+        next
+    }
+
     cluster.counts <- sapply(cls, function (x) length(unique(n$genes[n$cluster==x])))
     clusters.keep <- names(cluster.counts)[cluster.counts > minc]
     n2 <- n[n$cluster %in% clusters.keep,]
